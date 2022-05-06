@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
+import { AngularFireAuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './shared/services/auth.guard';
+
+const redirectLoggedInToPlans = () => redirectLoggedInTo(["plans"]);
+const redirectUnauthorized = () => redirectUnauthorizedTo(["login"]);
 
 const routes: Routes = [
   {
@@ -18,12 +22,16 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('./pages/login/login.module').then((m) => m.LoginModule)
+      import('./pages/login/login.module').then((m) => m.LoginModule),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToPlans }
   },
   {
     path: 'register',
     loadChildren: () =>
-      import('./pages/register/register.module').then((m) => m.RegisterModule)
+      import('./pages/register/register.module').then((m) => m.RegisterModule),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToPlans }
   },
   {
     path: 'plans',
@@ -36,7 +44,8 @@ const routes: Routes = [
       import('./pages/subscriptions/subscriptions.module').then(
         (m) => m.SubscriptionsModule
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorized }
   },
   {
     path: 'subscribe',
@@ -44,7 +53,14 @@ const routes: Routes = [
       import('./pages/subscribe/subscribe.module').then(
         (m) => m.SubscribeModule
       ),
-      canActivate: [AuthGuard]
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorized }
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorized }
   },
   {
     path: '',
@@ -61,4 +77,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

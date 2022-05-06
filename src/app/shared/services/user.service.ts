@@ -17,4 +17,8 @@ export class UserService {
   get(uid: string) {
     return this.afs.collection<User>(this.collectionName, ref => ref.where('id', '==', uid)).valueChanges();
   }
+
+  edit(editedUser: User) {
+    return this.afs.collection<User>(this.collectionName).doc(editedUser.id).set(editedUser);
+  }
 }
