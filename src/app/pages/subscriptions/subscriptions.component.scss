@@ -1,0 +1,18 @@
+table {
+  width: 100%;
+}
+
+th {
+  font-weight: bold;
+  font-size: max(1.2vw, 14px);
+}
+
+td {
+  text-align: left;
+  font-size: max(1vw, 14px);
+}
+
+.table-container {
+  height: 92vh;
+  overflow-y: visible;
+}

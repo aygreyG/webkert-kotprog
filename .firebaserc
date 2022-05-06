@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "webkert-mobilcsomag": {
+      "hosting": {
+        "kotprog": [
+          "webkert-mobilcsomag"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "webkert-mobilcsomag"
+  }
+}
