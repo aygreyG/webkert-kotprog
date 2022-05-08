@@ -5,6 +5,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { User } from '../../shared/models/User';
 import { UserService } from '../../shared/services/user.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +23,7 @@ export class RegisterComponent implements OnInit {
     repass: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
 
-  constructor(private location: Location, private authService: AuthService, private userService: UserService, private router: Router) {}
+  constructor(private location: Location, private authService: AuthService, private userService: UserService, private router: Router, private snackbar: MatSnackBar) {}
 
   ngOnInit(): void {}
 
@@ -51,9 +52,19 @@ export class RegisterComponent implements OnInit {
           console.log('Successful user creation!');
           this.router.navigateByUrl('/plans');
         }).catch(error =>{
+          this.snackbar.open('Sikertelen regisztráció!', 'Bezár', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 3000
+          });
           console.error(error);
         });
       }).catch(error => {
+        this.snackbar.open('Sikertelen regisztráció!', 'Bezár', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 3000
+        });
         console.error(error);
       });
     }
